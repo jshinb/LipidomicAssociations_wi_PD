@@ -1,6 +1,6 @@
 # LipidomicAssociations_wi_PD
 
-Scripts for 'Blood lipidomic signatures of Parkinson's disease project' (started in 2025)
+Scripts for 'Blood lipidomic signatures of Parkinson's disease project' (started in 2025)
 
 A. Association tests 
 1. Lipids vs PD status: in all, GBA1-positive, GBA1-negative
