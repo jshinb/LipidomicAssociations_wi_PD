@@ -1,4 +1,4 @@
-# LipidomicAssociations_wi_PD
+# Lipidomic Associations_wi_PD
 
 Scripts for 'Blood lipidomic signatures of Parkinson's disease project' (started in 2025)
 
