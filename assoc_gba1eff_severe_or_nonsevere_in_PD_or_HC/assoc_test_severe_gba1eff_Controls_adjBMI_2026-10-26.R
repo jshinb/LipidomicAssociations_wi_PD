@@ -62,8 +62,9 @@ for(i in 4){
     
     analdati = analdati %>% filter(sel_ind) %>%
       # filter(on_lipid_fin=="no") %>% 
+      filter(!is.na(bmi)) %>%
       filter(PD_status==0) 
-    table(is.na(analdati$GBA_Mutation),useNA='a')#11(positive)+72(negative)
+    table(is.na(analdati$GBA_Mutation),useNA='a')#7(carriers)+60 noncarriers
     #*************************************************************#
     # all
     fit.lipid = lm(inormal(y)~(age.c + age.c2 + bmi.c + bmi.c2)*sex, 
@@ -108,7 +109,7 @@ for(i in 4){
     mutate(fdr.p = p.adjust(pval,method = 'fdr')) %>%
     select(-contains("z"))
   
-  resi_OR_file = paste0('results/assoc_test_gba1eff_Controls_severe_',names(d_rm_high.missing_sd0)[i],"_PDcases_adjBMI_",Sys.Date(),".txt")
+  resi_OR_file = paste0('results/assoc_test_gba1eff_severe_',names(d_rm_high.missing_sd0)[i],"_Controls_adjBMI_",Sys.Date(),".txt")
   write_tsv(resi,resi_OR_file)
 }
 resi %>% arrange(pval) %>% head %>% print
