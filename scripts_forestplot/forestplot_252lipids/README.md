@@ -24,10 +24,9 @@ The test creates temporary mock input files, checks loading, confidence interval
 
 ## Numbered modules
 
-- `01_forestplot_config.R` — lipid-class order, cohorts, colors, and input paths.
 - `02_forestplot_helpers.R` — packages, lipid-ID normalization, and forest-plot geoms.
 - `03_forestplot_data.R` — validates, reads, and joins input data.
 - `04_build_forestplot.R` — confidence intervals, five lipid panels, combined plot, and legend.
-- `05_run_forestplot.R` — sources modules and writes the PDFs.
+- `05_run_forestplot.R` — config lipid-class order, cohorts, colors, and input paths then sources modules and writes the PDFs.
 
 Required R packages: `dplyr`, `stringr`, `data.table`, `ggplot2`, `patchwork`, `ggforestplot`, and `ggpattern`.
