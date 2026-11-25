@@ -1,6 +1,8 @@
 # Transform results, assign lipids to five display panels, and assemble plots.
 
-prepare_forestplot_intervals <- function(data, is_or = FALSE) {
+prepare_forestplot_intervals <- function(data, is_or = FALSE, plot.adj,
+                                         FORESTPLOT_COHORTS,
+                                         FORESTPLOT_CLASS_LEVELS) {
   lipid_id_levels <- data |>
     dplyr::distinct(lipidID2, lipidClass) |>
     dplyr::arrange(lipidClass, lipidID2) |>
@@ -8,7 +10,7 @@ prepare_forestplot_intervals <- function(data, is_or = FALSE) {
     unique()
 
   data |>
-    dplyr::filter(adj == "adjBMI", cohort %in% FORESTPLOT_COHORTS) |>
+    dplyr::filter(adj == plot.adj) |>
     dplyr::mutate(
       lipidID = factor(lipidID2, levels = rev(lipid_id_levels)),
       lipidClass = factor(lipidClass, levels = FORESTPLOT_CLASS_LEVELS),
