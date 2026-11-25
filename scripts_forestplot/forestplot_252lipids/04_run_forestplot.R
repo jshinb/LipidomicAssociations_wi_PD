@@ -34,17 +34,15 @@ wd="~/Library/CloudStorage/OneDrive-Personal/00_Work/GermanLipidomics/"
 setwd(wd)
 #=============================================================================@
 
-module_dir <- file.path(getwd(), "00_scripts", "forestplot_252lipids")
+module_dir <- file.path(getwd(),"00_GitHub_LipidomicAssociations_wi_PD/scripts_forestplot/forestplot_252lipids/")
 if (!dir.exists(module_dir)) {
   stop("Set the working directory to the repository root before sourcing this script.")
 }
+source(file.path(module_dir, "01_forestplot_helpers.R"), local = FALSE)
+source(file.path(module_dir, "02_forestplot_data.R"), local = FALSE)
+source(file.path(module_dir, "03_build_forestplot.R"), local = FALSE)
+
 project_root <- normalizePath(getwd())
-
-source(file.path(module_dir, "01_forestplot_config.R"), local = FALSE)
-source(file.path(module_dir, "02_forestplot_helpers.R"), local = FALSE)
-source(file.path(module_dir, "03_forestplot_data.R"), local = FALSE)
-source(file.path(module_dir, "04_build_forestplot.R"), local = FALSE)
-
 results <- load_forestplot_data(project_root)#assoc results
 intervals <- prepare_forestplot_intervals(results, is_or = FALSE, plot.adj = 'adjBMI',
                                           FORESTPLOT_COHORTS = FORESTPLOT_COHORTS,
@@ -57,7 +55,7 @@ output_dir <- file.path(project_root, "results", "forestplots_module")
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 date_tag <- format(Sys.Date(), "%Y-%m-%d")
 base_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_", date_tag, ".pdf"))
-legend_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_", date_tag, ".pdf"))
+legend_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_wiLegend_", date_tag, ".pdf"))
 
 ggplot2::ggsave(base_path, plot = forestplot, width = 33.8, height = 17.8, units = "cm")
 ggplot2::ggsave(legend_path, plot = forestplot_with_legend, width = 33.8, height = 17.8, units = "cm")
