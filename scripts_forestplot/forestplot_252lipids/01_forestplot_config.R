@@ -7,25 +7,21 @@ FORESTPLOT_CLASS_LEVELS <- c(
 )
 
 FORESTPLOT_COHORTS <- c(
-  "GBA1eff: PD cases any vs. no mutations",
-  "GBA1eff: controls any vs. no mutations"
+  "GBA1: no or unknown mutations", 
+  "PDeff: GBA1posPD vs. GBA1negHC"
 )
 
 FORESTPLOT_COLORS <- c(
-  "GBA1eff: PD cases any vs. no mutations" = "#00BA38",
-  "GBA1eff: controls any vs. no mutations" = "#619CFF"
+  "GBA1: no or unknown mutations" = "#619CFF",
+  "PDeff: GBA1posPD vs. GBA1negHC" = "#F8766D"
 )
+
+FORESTPLOT_ADJ = c('adjBMI','adjBMI')
 
 forestplot_input_paths <- function(project_root) {
   list(
     lipid_classes = file.path(project_root, "Class252lipids.txt"),
-    pd_cases = file.path(
-      project_root, "results",
-      "assoc_lipid_GBA1status_any_Species-Class_adjBMI_2026-10-08.txt"
-    ),
-    controls = file.path(
-      project_root, "results",
-      "assoc_test_gba1eff_Species-Class_Controls_adjBMI_2026-10-15.txt"
-    )
+    "GBA1: no or unknown mutations" = file.path(project_root,'results',"assoc_lipid_pd_Species-Class_GBA1neg_adjBMI_2026-10-08.txt"),
+    "PDeff: GBA1posPD vs. GBA1negHC" = file.path(project_root,"results","assoc_test_PDposGBA_HCnegGBA_Species-Class_adjBMI_2026-11-24.txt")
   )
 }
