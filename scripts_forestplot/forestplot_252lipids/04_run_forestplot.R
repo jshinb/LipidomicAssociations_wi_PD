@@ -1,5 +1,8 @@
 # Reproduce the 252-lipid, adjusted-BMI GBA1-effect forest plots.
 # In RStudio/Positron: set the working directory to the repo root, then source.
+# "GBA1: no or unknown mutations" = "results/assoc_lipid_pd_Species-Class_GBA1neg_adjBMI_2026-10-08.txt",
+# "GBA1: any known mutations" = "results/assoc_lipid_pd_Species-Class_anyGBA1mut_adjBMI_2026-10-08.txt",
+
 
 #=============================================================================@
 # Configuration for the 252-lipid GBA1-effect forest plot.
@@ -12,21 +15,24 @@ FORESTPLOT_CLASS_LEVELS <- c(
 
 FORESTPLOT_COHORTS <- c(
   "GBA1: no or unknown mutations", 
-  "PDeff: GBA1posPD vs. GBA1negHC"
+  "PDeff: GBA1posPD vs. GBA1negHC",
+  "GBA1: any known mutations"
 )
 
 FORESTPLOT_COLORS <- c(
   "GBA1: no or unknown mutations" = "#619CFF",
-  "PDeff: GBA1posPD vs. GBA1negHC" = "#F8766D"
+  "PDeff: GBA1posPD vs. GBA1negHC" = "#F8766D",
+  "GBA1: any known mutations" = "#00BA38"
 )
 
-FORESTPLOT_ADJ = c('adjBMI','adjBMI')
+FORESTPLOT_ADJ = c('adjBMI','adjBMI','adjBMI')
 
 forestplot_input_paths <- function(project_root) {
   list(
     lipid_classes = file.path(project_root, "Class252lipids.txt"),
     "GBA1: no or unknown mutations" = file.path(project_root,'results',"assoc_lipid_pd_Species-Class_GBA1neg_adjBMI_2026-10-08.txt"),
-    "PDeff: GBA1posPD vs. GBA1negHC" = file.path(project_root,"results","assoc_test_PDposGBA_HCnegGBA_Species-Class_adjBMI_2026-11-24.txt")
+    "PDeff: GBA1posPD vs. GBA1negHC" = file.path(project_root,"results","assoc_test_PDposGBA_HCnegGBA_Species-Class_adjBMI_2026-11-24.txt"),
+    "GBA1: any known mutations" = file.path(project_root,"results/assoc_lipid_pd_Species-Class_anyGBA1mut_adjBMI_2026-10-08.txt")
   )
 }
 
@@ -54,8 +60,8 @@ forestplot_with_legend <- add_forestplot_legend(forestplot)
 output_dir <- file.path(project_root, "results", "forestplots_module")
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 date_tag <- format(Sys.Date(), "%Y-%m-%d")
-base_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_", date_tag, ".pdf"))
-legend_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_wiLegend_", date_tag, ".pdf"))
+base_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_GBA1pos_", date_tag, ".pdf"))
+legend_path <- file.path(output_dir, paste0("forestplot_252_PDeff_GBA1neg_GBA1_posPD_vs_negHC_GBA1pos_wiLegend_", date_tag, ".pdf"))
 
 ggplot2::ggsave(base_path, plot = forestplot, width = 33.8, height = 17.8, units = "cm")
 ggplot2::ggsave(legend_path, plot = forestplot_with_legend, width = 33.8, height = 17.8, units = "cm")

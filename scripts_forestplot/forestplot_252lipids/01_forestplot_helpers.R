@@ -8,6 +8,7 @@ suppressPackageStartupMessages({
   library(patchwork)
   library(ggforestplot)
   library(ggpattern)
+  library(ggstats)
 })
 
 clean_lipid_id <- function(x) {
@@ -21,7 +22,7 @@ clean_lipid_id <- function(x) {
 }
 
 generate_forest_col <- function(data, colors, is_or = FALSE,
-                                 point_size = 2, stroke = 0.6,
+                                 point_size = 1.25, stroke = 0.6,
                                  dodge_width = 0) {
   ggplot(data, aes(x = .estimate, y = lipidID)) +
     theme_forest() +

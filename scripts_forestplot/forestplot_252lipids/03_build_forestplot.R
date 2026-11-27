@@ -2,13 +2,16 @@
 
 prepare_forestplot_intervals <- function(data, is_or = FALSE, plot.adj,
                                          FORESTPLOT_COHORTS,
-                                         FORESTPLOT_CLASS_LEVELS) {
-  lipid_id_levels <- data |>
-    dplyr::distinct(lipidID2, lipidClass) |>
-    dplyr::arrange(lipidClass, lipidID2) |>
-    dplyr::pull(lipidID2) |>
-    unique()
-
+                                         FORESTPLOT_CLASS_LEVELS,
+                                         lipid_id_levels = NULL) {
+  if(is.null(lipidID.levels)){
+    lipid_id_levels <- data |>
+      dplyr::distinct(lipidID2, lipidClass) |>
+      dplyr::arrange(lipidClass, lipidID2) |>
+      dplyr::pull(lipidID2) |>
+      unique()
+  }
+  
   data |>
     dplyr::filter(adj == plot.adj) |>
     dplyr::mutate(
@@ -57,29 +60,31 @@ build_forestplot_panels <- function(intervals) {
     dplyr::arrange(lipidClass, lipidID) |>
     dplyr::slice(rev(dplyr::row_number()))
 
-  panel_2_ids <- select_panel_ids(plot_data, c("CE", "PC"), lipid_id_levels = lipid_id_levels)
+  panel_2_ids <- select_panel_ids(plot_data, c("CE", "PC"), lipid_id_levels = rev(lipid_id_levels))
   panel_2 <- plot_data |> dplyr::filter(lipidID %in% panel_2_ids$selected)
+  
   panel_3_ids <- select_panel_ids(
     plot_data, "PC-O", carry_ids = panel_2_ids$remaining,
-    lipid_id_levels = lipid_id_levels
+    lipid_id_levels = rev(lipid_id_levels)
   )
   panel_3 <- plot_data |> dplyr::filter(lipidID %in% panel_3_ids$selected)
+  
   panel_4_ids <- select_panel_ids(
     plot_data, c("LPC", "PE"), carry_ids = panel_3_ids$remaining,
-    lipid_id_levels = lipid_id_levels
+    lipid_id_levels = rev(lipid_id_levels)
   )
   panel_4 <- plot_data |> dplyr::filter(lipidID %in% panel_4_ids$selected)
   panel_5_ids <- select_panel_ids(
     plot_data, c("PE-O", "LPE", "PI", "Cer", "SM"),
     carry_ids = panel_4_ids$remaining, limit = Inf,
-    lipid_id_levels = lipid_id_levels
+    lipid_id_levels = rev(lipid_id_levels)
   )
   panel_5 <- plot_data |> dplyr::filter(lipidID %in% panel_5_ids$selected)
 
   list(panel_1, panel_2, panel_3, panel_4, panel_5)
 }
 
-assemble_forestplot <- function(intervals, colors = FORESTPLOT_COLORS) {
+assemble_forestplot <- function(intervals, colors = FORESTPLOT_COLORS,...) {
   panels <- build_forestplot_panels(intervals)
   plots <- lapply(panels, function(panel) generate_forest_col(panel, colors = colors))
   plot_limits <- range(intervals$.xmin, intervals$.xmax, na.rm = TRUE)
